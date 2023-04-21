@@ -1,35 +1,28 @@
-import { getPosts } from '../api';
-import { useEffect, useState } from 'react';
-import { Home } from '../pages';
+import { Home, Login } from '../pages';
 import { Loader, Navbar } from '/';
-// import Navbar from './Navbar';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useAuth } from '../hooks';
+import Signup from '../pages/Signup';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [posts, setPosts] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      console.log('response', response);
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-      setLoading(false);
-    };
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+  if (auth.loading) {
     return <Loader />;
   }
 
   return (
     <div className="App">
-      <div>
+      <Router>
         <Navbar />
-        <Home posts={posts} />
-      </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Signup />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
