@@ -36,10 +36,10 @@ const customFetch = async (url, { body, ...customConfig }) => {
 
     throw new Error(data.message);
   } catch (error) {
-    console.error('error');
+    console.error('error in api call', error);
     return {
-      data: error.message,
-      success: true,
+      message: error.message,
+      success: false,
     };
   }
 };
@@ -63,6 +63,18 @@ export const register = async (name, email, password, confirmPassword) => {
     body: {
       name,
       email,
+      password,
+      confirm_password: confirmPassword,
+    },
+  });
+};
+
+export const editProfile = async (userId, name, password, confirmPassword) => {
+  return customFetch(API_URLS.editUser(), {
+    method: 'POST',
+    body: {
+      id: userId,
+      name,
       password,
       confirm_password: confirmPassword,
     },

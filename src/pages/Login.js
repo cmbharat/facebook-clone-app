@@ -2,7 +2,7 @@ import styles from '../styles/login.module.css';
 import { toast, Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import { useAuth } from '../hooks';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -22,7 +22,7 @@ const Login = () => {
         style: {
           borderRadius: 50,
         },
-        duration: 5000,
+        duration: 500,
       });
 
       // setLoggingIn(false);
@@ -30,16 +30,15 @@ const Login = () => {
     const response = await auth.login(email, password);
 
     if (response.success) {
-      console.log(response);
+      console.log('inside response success', response);
 
-      navigate('/');
       toast.success('login successful', {
         position: 'top-left',
         icon: '😀',
         style: {
           borderRadius: 50,
         },
-        duration: 5000,
+        duration: 500,
       });
     } else {
       console.log(response);
@@ -55,6 +54,9 @@ const Login = () => {
     setLoggingIn(false);
   };
 
+  if (auth.user) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <span className={styles.loginSignupHeader}>Log In</span>

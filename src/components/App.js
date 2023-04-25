@@ -1,12 +1,23 @@
-import { Home, Login } from '../pages';
+import { Home, Login, Signup, Settings } from '../pages';
 import { Loader, Navbar } from '/';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 import { useAuth } from '../hooks';
-import Signup from '../pages/Signup';
+
+function PrivateRoute({ children }) {
+  console.log(children);
+  const auth = useAuth();
+  return auth.user ? <>{children}</> : <Navigate to="/login" />;
+}
 
 function App() {
   // const [posts, setPosts] = useState([]);
   // const [loading, setLoading] = useState(true);
+
   const auth = useAuth();
 
   if (auth.loading) {
@@ -21,6 +32,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>

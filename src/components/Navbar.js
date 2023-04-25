@@ -18,8 +18,12 @@ const Navbar = () => {
       <div className={styles.rightNav}>
         {auth.user && (
           <div className={styles.user}>
-            <Link to="/">
-              <img src="" alt="" className={styles.userDp} />
+            <Link to="/settings">
+              <img
+                src="https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
+                alt=""
+                className={styles.userDp}
+              />
             </Link>
             <span>{auth.user.name}</span>
           </div>
@@ -28,9 +32,7 @@ const Navbar = () => {
           <ul>
             {auth.user ? (
               <>
-                <li>
-                  <button onClick={auth.logout}>Logout</button>
-                </li>
+                <li onClick={auth.logout}>Logout</li>
               </>
             ) : (
               <>

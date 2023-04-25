@@ -1,6 +1,6 @@
 import { toast, Toaster } from 'react-hot-toast';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import styles from '../styles/login.module.css';
 
@@ -52,7 +52,7 @@ const Signup = () => {
 
       setSigningUp(false);
 
-      return toast.success('signup successful', {
+      toast.success('signup successful', {
         position: 'top-left',
         icon: '😀',
         style: {
@@ -61,7 +61,7 @@ const Signup = () => {
         duration: 5000,
       });
     } else {
-      return toast.error(response.message, {
+      toast.error(response.message, {
         position: 'top-left',
         icon: '😀',
         style: {
@@ -74,6 +74,9 @@ const Signup = () => {
     setSigningUp(false);
   };
 
+  if (auth.user) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <form className={styles.loginForm} onSubmit={handleFormSubmit}>
       <span className={styles.loginSignupHeader}>Sign Up</span>
