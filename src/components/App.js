@@ -1,4 +1,4 @@
-import { Home, Login, Signup, Settings } from '../pages';
+import { Home, Login, Signup, Settings, UserProfile } from '../pages';
 import { Loader, Navbar } from '/';
 import {
   BrowserRouter as Router,
@@ -9,7 +9,7 @@ import {
 import { useAuth } from '../hooks';
 
 function PrivateRoute({ children }) {
-  console.log(children);
+  // console.log(children);
   const auth = useAuth();
   return auth.user ? <>{children}</> : <Navigate to="/login" />;
 }
@@ -19,6 +19,8 @@ function App() {
   // const [loading, setLoading] = useState(true);
 
   const auth = useAuth();
+
+  console.log('auth', auth);
 
   if (auth.loading) {
     return <Loader />;
@@ -37,6 +39,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Settings />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/user/:userId"
+            element={
+              <PrivateRoute>
+                <UserProfile />
               </PrivateRoute>
             }
           />

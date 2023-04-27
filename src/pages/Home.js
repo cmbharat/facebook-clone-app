@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
 import { Comment, Loader } from '../components';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await getPosts();
-      console.log('response', response);
+      // console.log('response', response);
       if (response.success) {
         setPosts(response.data.posts);
       }
@@ -33,7 +38,26 @@ const Home = () => {
                 alt="user-pic"
               />
               <div>
-                <span className={styles.postAuthor}>{post.user.name}</span>
+                {/* <a
+                  className={styles.postAuthor}
+                  onClick={() => {
+                    navigate(`/user/${post.user._id}`, {
+                      state: { user: post.user },
+                    });
+                  }}
+                >
+                  {post.user.name}
+                </a> */}
+                <Link
+                  to={`/user/${post.user._id}`}
+                  state={{
+                    user: post.user,
+                  }}
+                  className={styles.postAuthor}
+                >
+                  {post.user.name}
+                </Link>
+
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>
