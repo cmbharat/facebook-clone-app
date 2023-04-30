@@ -29,7 +29,7 @@ const UserProfile = () => {
         console.log(response);
         setUser(response.data.user);
       } else {
-        console.log(response);
+        console.log(response, 'in error');
         toast.error(response.message, {
           position: 'top-left',
           icon: '😀',
